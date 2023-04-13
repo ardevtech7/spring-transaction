@@ -55,7 +55,6 @@ class MemberServiceTest {
         assertThatThrownBy(() -> memberService.joinV1(username))
                         .isInstanceOf(RuntimeException.class);
 
-        // Then : 모든 데이터가 정상 저장
         assertTrue(memberRepository.find(username).isPresent());
         assertTrue(logRepository.find(username).isEmpty());
     }
@@ -70,6 +69,24 @@ class MemberServiceTest {
     void singleTx() {
         // Given
         String username = "outerTxOff_success";
+
+        // When
+        memberService.joinV1(username);
+
+        assertTrue(memberRepository.find(username).isPresent());
+        assertTrue(logRepository.find(username).isPresent());
+    }
+
+    /**
+     * memberService - @Transactional:ON
+     * memberRepository - @Transactional:ON
+     * logRepository - @Transactional:ON
+     */
+    @DisplayName("트랜잭션 모두 사용")
+    @Test
+    void outerTxOn_success() {
+        // Given
+        String username = "outerTxOn_success";
 
         // When
         memberService.joinV1(username);
