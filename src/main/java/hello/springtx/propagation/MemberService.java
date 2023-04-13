@@ -12,8 +12,8 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final LogRepository logRepository;
 
-    @Transactional
     // RuntimeException 이 터지면, 예외가 밖으로 나가서 고객한테 보여짐
+    @Transactional
     public void joinV1(String username) {
         Member member = new Member(username);
         Log logMessage = new Log(username);
@@ -28,6 +28,7 @@ public class MemberService {
     }
 
     // RuntimeException 을 잡아서 정상흐름으로 남겨서 log 남김
+    @Transactional
     public void joinV2(String username) {
         Member member = new Member(username);
         Log logMessage = new Log(username);
